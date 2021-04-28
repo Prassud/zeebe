@@ -12,6 +12,8 @@ def developBranchName = 'develop'
 def isDevelopBranch = env.BRANCH_NAME == developBranchName
 def latestStableBranchName = 'stable/1.0'
 def isLatestStable = env.BRANCH_NAME == latestStableBranchName
+def nightQaRunBranchName = 'nightly-qa-run'
+def shouldRunNightly = env.BRANCH_NAME == nightQaRunBranchName
 
 //for develop branch keep builds for 7 days to be able to analyse build errors, for all other branches, keep the last 10 builds
 def daysToKeep = isDevelopBranch ? '7' : '-1'
@@ -29,7 +31,7 @@ itFlakyTestStashName = 'it-flakyTests'
 
 // the develop branch should be run at midnight to do a nightly build including QA test run
 // the latest stable branch is run an hour later at 01:00 AM.
-def cronTrigger = isDevelopBranch ? '0 0 * * *' : isLatestStable ? '0 1 * * *' : ''
+def cronTrigger = shouldRunNightly ? '0 0 * * *' : ''
 
 pipeline {
     agent {
@@ -315,10 +317,7 @@ pipeline {
                 anyOf {
                     expression { params.RUN_QA }
                     allOf {
-                        anyOf {
-                            branch developBranchName
-                            branch latestStableBranchName
-                        }
+                        branch nightQaRunBranchName
                         triggeredBy 'TimerTrigger'
                     }
                 }
