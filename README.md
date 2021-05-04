@@ -32,7 +32,7 @@ Here is a diagram illustrating the lifecycle of minor releases over a 13-month p
 
 We are currently working on Zeebe 1.0.
 
-To learn more about what we're currently working on, check the [GitHub issues](https://github.com/camunda-cloud/zeebe/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc) and the [latest commits](https://github.com/camunda-cloud/zeebe/commits/develop). Our issue triage process is described [here](https://github.com/zeebe-io/enhancements/blob/master/ZEP001-triage-process.md).
+To learn more about what we're currently working on, check the [GitHub issues](https://github.com/camunda-cloud/zeebe/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc) and the [latest commits](https://github.com/camunda-cloud/zeebe/commits/develop).
 
 ## Helpful Links
 
