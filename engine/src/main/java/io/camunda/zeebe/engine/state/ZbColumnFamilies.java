@@ -57,6 +57,9 @@ public enum ZbColumnFamilies {
 
   // message subscription
   MESSAGE_SUBSCRIPTION_BY_KEY,
+  // migration start
+  MESSAGE_SUBSCRIPTION_BY_SENT_TIME,
+  // migration end
   MESSAGE_SUBSCRIPTION_BY_NAME_AND_CORRELATION_KEY,
 
   // message start event subscription
@@ -65,6 +68,9 @@ public enum ZbColumnFamilies {
 
   // process message subscription
   PROCESS_SUBSCRIPTION_BY_KEY,
+  // migration start
+  PROCESS_SUBSCRIPTION_BY_SENT_TIME,
+  // migration end
 
   // incident
   INCIDENTS,
@@ -79,9 +85,5 @@ public enum ZbColumnFamilies {
 
   EXPORTER,
 
-  AWAIT_WORKLOW_RESULT,
-
-  // migration
-  MESSAGE_SUBSCRIPTION_BY_SENT_TIME,
-  PROCESS_SUBSCRIPTION_BY_SENT_TIME,
+  AWAIT_WORKLOW_RESULT
 }
