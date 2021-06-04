@@ -56,7 +56,7 @@ final class TransientSubscriptionCommandState {
     synchronized (transientState) {
       Collections.sort(transientState);
       for (final CommandEntry commandEntry : transientState) {
-        if (commandEntry.commandSentTime >= deadline) {
+        if (commandEntry.getCommandSentTime() >= deadline) {
           break;
         }
 
@@ -85,6 +85,10 @@ final class TransientSubscriptionCommandState {
 
     public String getMessageName() {
       return messageName;
+    }
+
+    public long getCommandSentTime() {
+      return commandSentTime;
     }
 
     @Override

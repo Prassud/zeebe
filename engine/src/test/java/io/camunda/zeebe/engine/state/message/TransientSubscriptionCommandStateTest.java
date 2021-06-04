@@ -94,7 +94,7 @@ public class TransientSubscriptionCommandStateTest {
   }
 
   @Test
-  public void shouldReturnEntriesBasedObUpdatedSentTime() {
+  public void shouldReturnEntriesBasedOnUpdatedSentTime() {
     // when
     sut.add(new CommandEntry(1, "message", 3000));
     sut.add(new CommandEntry(2, "message", 2000));

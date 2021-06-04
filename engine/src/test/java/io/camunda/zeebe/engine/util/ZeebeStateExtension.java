@@ -67,7 +67,7 @@ import org.junit.platform.commons.util.ReflectionUtils.HierarchyTraversalMode;
  * private ZeebeDb db2; // will be injected, but will be the same instance as db1
  * }</pre>
  */
-public final class ZeebeStateExtension implements BeforeEachCallback {
+public class ZeebeStateExtension implements BeforeEachCallback {
 
   private static final String FIELD_STATE = "state";
 
@@ -134,7 +134,7 @@ public final class ZeebeStateExtension implements BeforeEachCallback {
   }
 
   private Store getStore(final ExtensionContext context) {
-    return context.getStore(Namespace.create(getClass(), context.getRequiredTestMethod()));
+    return context.getStore(Namespace.create(getClass(), context.getUniqueId()));
   }
 
   private static final class ZeebeStateExtensionState implements CloseableResource {
@@ -225,7 +225,7 @@ public final class ZeebeStateExtension implements BeforeEachCallback {
       return zeebeState;
     }
 
-    public TransactionContext getTransactionContext() {
+    private TransactionContext getTransactionContext() {
       return transactionContext;
     }
   }
