@@ -144,7 +144,8 @@ public final class ResolveIncidentProcessor implements TypedRecordProcessor<Inci
               sideEffect.accept(sideEffects);
             },
             failure ->
-                rejectResolveCommand(command, responseWriter, failure, RejectionType.NOT_FOUND));
+                stateWriter.appendFollowUpEvent(
+                    keyGenerator.nextKey(), IncidentIntent.CREATED, incidentRecord));
   }
 
   private Either<String, TypedRecord<ProcessInstanceRecord>> getFailedCommand(
