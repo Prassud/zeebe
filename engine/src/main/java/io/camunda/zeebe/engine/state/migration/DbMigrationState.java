@@ -16,8 +16,9 @@ import io.camunda.zeebe.db.impl.DbNil;
 import io.camunda.zeebe.db.impl.DbString;
 import io.camunda.zeebe.engine.state.ZbColumnFamilies;
 import io.camunda.zeebe.engine.state.mutable.MutableMigrationState;
+import io.camunda.zeebe.engine.state.mutable.MutablePendingProcessMessageSubscriptionState;
 import io.camunda.zeebe.engine.state.mutable.MutableProcessMessageSubscriptionState;
-import io.camunda.zeebe.engine.state.mutable.MutableTransientProcessMessageSubscriptionState;
+import io.camunda.zeebe.protocol.impl.record.value.message.ProcessMessageSubscriptionRecord;
 
 public class DbMigrationState implements MutableMigrationState {
 
@@ -55,8 +56,8 @@ public class DbMigrationState implements MutableMigrationState {
 
   @Override
   public void migrateProcessMessageSubscriptionSentTime(
-      final MutableProcessMessageSubscriptionState persistentSate,
-      final MutableTransientProcessMessageSubscriptionState transientState) {
+      final MutableProcessMessageSubscriptionState persistentState,
+      final MutablePendingProcessMessageSubscriptionState transientState) {
 
     processSubscriptionSentTimeColumnFamily.forEach(
         (key, value) -> {
@@ -66,16 +67,21 @@ public class DbMigrationState implements MutableMigrationState {
           final var messageName = elementKeyAndMessageName.getSecond().getBuffer();
 
           final var processMessageSubscription =
-              persistentSate.getSubscription(elementInstanceKey, messageName);
+              persistentState.getSubscription(elementInstanceKey, messageName);
           if (processMessageSubscription != null) {
 
             final var record = processMessageSubscription.getRecord();
+
+            final ProcessMessageSubscriptionRecord exclusiveCopy =
+                new ProcessMessageSubscriptionRecord();
+            exclusiveCopy.wrap(record);
+
             if (processMessageSubscription.isOpening()) {
-              persistentSate.put(elementInstanceKey, record);
-              transientState.updateSentTime(record, sentTime);
+              persistentState.put(elementInstanceKey, exclusiveCopy);
+              transientState.updateSentTime(exclusiveCopy, sentTime);
             } else if (processMessageSubscription.isClosing()) {
-              persistentSate.updateToClosingState(record);
-              transientState.updateSentTime(record, sentTime);
+              persistentState.updateToClosingState(exclusiveCopy);
+              transientState.updateSentTime(exclusiveCopy, sentTime);
             }
           }
 
