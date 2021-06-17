@@ -175,7 +175,7 @@ pipeline {
                     environment {
                         SUREFIRE_REPORT_NAME_SUFFIX = 'java-testrun'
                         MAVEN_PARALLELISM = 2
-                        SUREFIRE_FORK_COUNT = 6
+                        SUREFIRE_FORK_COUNT = 10
                         JUNIT_THREAD_COUNT = 6
                     }
 
